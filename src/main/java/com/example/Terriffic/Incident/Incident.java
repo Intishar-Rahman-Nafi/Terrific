@@ -17,7 +17,7 @@ public class Incident {
 
     @Column(name = "reported_by")
     private String reported_by;
-    @Column(name = "location", columnDefinition = "geometry(Point, 4326)")
+    @Column(name = "location", columnDefinition = "POINT")
     @Convert(converter = PointConverter.class)
     private Point location;
     @Column(name = "date_time")
