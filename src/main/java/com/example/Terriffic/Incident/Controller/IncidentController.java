@@ -1,7 +1,7 @@
-package com.example.Terriffic.Controller;
+package com.example.Terriffic.Incident.Controller;
 
-import com.example.Terriffic.Incident.Incident;
-import com.example.Terriffic.IncidentService.IncidentServiceImp;
+import com.example.Terriffic.Incident.Model.Incident;
+import com.example.Terriffic.Incident.Service.IncidentServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

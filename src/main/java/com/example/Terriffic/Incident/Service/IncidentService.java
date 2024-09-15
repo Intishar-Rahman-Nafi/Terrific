@@ -1,8 +1,6 @@
-package com.example.Terriffic.IncidentService;
+package com.example.Terriffic.Incident.Service;
 
-import com.example.Terriffic.Incident.Incident;
-import com.example.Terriffic.IncidentDao.IncidentDao;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.Terriffic.Incident.Model.Incident;
 
 import java.util.List;
 

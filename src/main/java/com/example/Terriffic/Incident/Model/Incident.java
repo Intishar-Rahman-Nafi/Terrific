@@ -1,4 +1,4 @@
-package com.example.Terriffic.Incident;
+package com.example.Terriffic.Incident.Model;
 
 import jakarta.persistence.*;
 import org.locationtech.jts.geom.Coordinate;

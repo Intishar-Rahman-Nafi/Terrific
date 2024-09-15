@@ -1,6 +1,6 @@
-package com.example.Terriffic.IncidentDao;
+package com.example.Terriffic.Incident.Repository;
 
-import com.example.Terriffic.Incident.Incident;
+import com.example.Terriffic.Incident.Model.Incident;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
