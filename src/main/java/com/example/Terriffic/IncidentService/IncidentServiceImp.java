@@ -10,12 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class IncidentServiceImp implements IncidentService{
+public class IncidentServiceImp implements IncidentService {
     public IncidentDao incidentdao;
+
     @Autowired
-    public IncidentServiceImp(IncidentDao incidentDao){
+    public IncidentServiceImp(IncidentDao incidentDao) {
         incidentdao = incidentDao;
     }
+
     @Override
     @Transactional
     public Incident save(Incident incident) {
@@ -33,15 +35,17 @@ public class IncidentServiceImp implements IncidentService{
     public List<Incident> findAll() {
         return incidentdao.findAll();
     }
+
     @Override
     @Transactional
     public List<Incident> findWithinBoundingBox(double latMin, double lonMin, double latMax, double lonMax) {
         return incidentdao.findWithinBoundingBox(latMin, lonMin, latMax, lonMax);
     }
+
     @Override
     public Incident findById(int id) {
         Optional<Incident> option = incidentdao.findById(id);
-        if(option.isPresent()){
+        if (option.isPresent()) {
             Incident inci = option.get();
             return inci;
         }
