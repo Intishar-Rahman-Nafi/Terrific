@@ -17,10 +17,12 @@ public class IncidentController {
     public IncidentController(IncidentServiceImp inciserv){
         inciServ = inciserv;
     }
+
     @GetMapping("/incident")
     public List<Incident> findAll(){
         return inciServ.findAll();
     }
+
     @GetMapping("/incident/range")
     public List<Incident> findIncidentsWithinBoundingBox(
             @RequestParam("lat_min") double latMin,
@@ -34,6 +36,7 @@ public class IncidentController {
     public Incident findById(@PathVariable int Id){
         return inciServ.findById(Id);
     }
+
     @PostMapping("/incident")
     public Incident insert( @RequestBody Incident incident){
         if (incident.getLocation() == null) {
@@ -41,10 +44,12 @@ public class IncidentController {
         }
         return inciServ.save(incident);
     }
+
     @PutMapping("/incident")
     public Incident update( @RequestBody Incident incident){
         return inciServ.save(incident);
     }
+
     @DeleteMapping("/incident/{Id}")
     public void deleteById(@PathVariable int Id){
         inciServ.deleteById(Id);
