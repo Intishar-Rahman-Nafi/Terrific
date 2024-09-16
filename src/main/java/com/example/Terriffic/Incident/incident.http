@@ -1,2 +1,15 @@
 GET http://localhost:8080/emp/incident
 
+
+###
+POST http://localhost:8080/emp/incident
+Content-Type: application/json
+
+{
+  "incident_type": "Lite Nafi",
+  "description": "Traffic congestion due to an event.",
+  "date_time": "2024-09-16T07:07:57.873Z",
+  "latitude": 12.9740,
+  "longitude": 77.5970,
+  "reported_by": "user345"
+}

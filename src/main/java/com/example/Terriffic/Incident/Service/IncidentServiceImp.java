@@ -21,13 +21,12 @@ public class IncidentServiceImp implements IncidentService {
     @Override
     @Transactional
     public Incident save(Incident incident) {
-        Incident inci = incidentdao.save((incident));
-        return inci;
+        return incidentdao.save(incident);
     }
 
     @Override
     @Transactional
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         incidentdao.deleteById(id);
     }
 
@@ -43,7 +42,7 @@ public class IncidentServiceImp implements IncidentService {
     }
 
     @Override
-    public Incident findById(int id) {
+    public Incident findById(Long id) {
         Optional<Incident> option = incidentdao.findById(id);
         if (option.isPresent()) {
             Incident inci = option.get();

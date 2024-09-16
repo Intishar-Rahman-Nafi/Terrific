@@ -28,6 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>22</java.version>
+		<hibernate.version>6.5.2.Final</hibernate.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -64,6 +65,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-spatial</artifactId>
+			<version>6.5.2.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.cdimascio</groupId>

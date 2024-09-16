@@ -5,6 +5,10 @@ import jakarta.persistence.Converter;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKBReader;
+import org.locationtech.jts.io.WKBWriter;
+
+import java.util.Arrays;
 
 @Converter(autoApply = true)
 public class PointConverter implements AttributeConverter<Point, byte[]> {
@@ -14,7 +18,8 @@ public class PointConverter implements AttributeConverter<Point, byte[]> {
         if (attribute == null) {
             return null;
         }
-        return attribute.toString().getBytes();
+        WKBWriter writer = new WKBWriter();
+        return  writer.write(attribute);
     }
 
     @Override
@@ -22,11 +27,11 @@ public class PointConverter implements AttributeConverter<Point, byte[]> {
         if (dbData == null) {
             return null;
         }
-        String wkt = new String(dbData);
+        WKBReader reader = new WKBReader();
         try {
-            return new GeometryFactory().createPoint(new org.locationtech.jts.io.WKTReader().read(wkt).getCoordinate());
+            return (Point) reader.read(dbData);
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error converting WKB to Point", e);
         }
     }
 }
