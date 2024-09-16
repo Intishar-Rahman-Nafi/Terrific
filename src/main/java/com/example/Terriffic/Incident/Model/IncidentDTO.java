@@ -16,6 +16,10 @@ public class IncidentDTO {
     private String reported_by;
     private final GeometryFactory geometryFactory;
 
+    public IncidentDTO() {
+        this.geometryFactory = new GeometryFactory();
+    }
+
     public IncidentDTO(
             String incident_type,
             String description,
