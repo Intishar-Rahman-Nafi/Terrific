@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/emp")
+@RequestMapping("/incident")
 public class IncidentController {
     public IncidentServiceImp incidentService;
 
@@ -24,12 +24,12 @@ public class IncidentController {
 
     }
 
-    @GetMapping("/incident")
+    @GetMapping("")
     public List<Incident> findAll(){
         return incidentService.findAll();
     }
 
-    @GetMapping("/incident/range")
+    @GetMapping("/range")
     public List<Incident> findIncidentsWithinBoundingBox(
             @RequestParam("lat_min") double latMin,
             @RequestParam("lon_min") double lonMin,
@@ -38,12 +38,12 @@ public class IncidentController {
     ) {
         return incidentService.findWithinBoundingBox(latMin, lonMin, latMax, lonMax);
     }
-    @GetMapping("/incident/{Id}")
+    @GetMapping("/{Id}")
     public Incident findById(@PathVariable Long Id){
         return incidentService.findById(Id);
     }
 
-    @PostMapping("/incident")
+    @PostMapping("")
     public ResponseEntity<Incident> insert( @RequestBody IncidentDTO request){
         Incident incident = new Incident();
         incident.setIncident_type(request.getIncident_type());
@@ -64,12 +64,12 @@ public class IncidentController {
         }
     }
 
-    @PutMapping("/incident")
-    public Incident update( @RequestBody Incident incident){
+    @PutMapping("/{Id}")
+    public Incident update( @RequestBody Incident incident, @PathVariable Long Id){
         return incidentService.save(incident);
     }
 
-    @DeleteMapping("/incident/{Id}")
+    @DeleteMapping("/{Id}")
     public void deleteById(@PathVariable Long Id){
         incidentService.deleteById(Id);
         return;
