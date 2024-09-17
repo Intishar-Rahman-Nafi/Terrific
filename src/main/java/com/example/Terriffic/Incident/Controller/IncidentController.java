@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/incident")
+@RequestMapping("/incidents")
 public class IncidentController {
     public IncidentServiceImp incidentService;
 
@@ -24,7 +24,7 @@ public class IncidentController {
 
     }
 
-    @GetMapping("")
+    @GetMapping()
     public List<Incident> findAll(){
         return incidentService.findAll();
     }
@@ -43,7 +43,7 @@ public class IncidentController {
         return incidentService.findById(Id);
     }
 
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<Incident> insert( @RequestBody IncidentDTO request){
         Incident incident = new Incident();
         incident.setIncident_type(request.getIncident_type());

@@ -1,8 +1,8 @@
-GET http://localhost:8080/emp/incident
+GET http://localhost:8080/incidents
 
 
 ###
-POST http://localhost:8080/emp/incident
+POST http://localhost:8080/incidents
 Content-Type: application/json
 
 {
