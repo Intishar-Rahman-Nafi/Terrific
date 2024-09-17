@@ -1,8 +1,6 @@
-package com.example.Terriffic.Incident;
+package com.example.Terriffic.Incident.Model;
 
 import jakarta.persistence.*;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 
 import java.sql.Timestamp;
@@ -11,35 +9,33 @@ import java.sql.Timestamp;
 @Table(name = "Incident")
 public class Incident {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(name = "reported_by")
     private String reported_by;
-    @Column(name = "location", columnDefinition = "geometry(Point, 4326)")
+
+    @Column(columnDefinition = "BLOB")
     @Convert(converter = PointConverter.class)
     private Point location;
-    @Column(name = "date_time")
+
     private Timestamp date_time;
-    @Column(name = "descriptionn")
+
     private String description;
-    @Column(name = "incident_type")
+
     private String incident_type;
+
     public Incident(){
 
     }
-    public Incident(String incident_type, String description, Timestamp date_time, double latitude, double longitude, String reported_by) {
+    public Incident(String incident_type, String description, Timestamp date_time, Point location, String reported_by) {
         this.incident_type = incident_type;
         this.description = description;
         this.date_time = date_time;
-        /*this.location =*/
-              Point temp =  (new GeometryFactory().createPoint(new Coordinate(longitude, latitude)));
-              System.out.println(temp.getCoordinates());
+        this.location = location;
         this.reported_by = reported_by;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -53,11 +49,11 @@ public class Incident {
     }
 
     public Point getLocation() {
-        return location;
+        return this.location;
     }
 
-    public void setLocation(double longitude, double latitude) {
-        this.location = new GeometryFactory().createPoint(new Coordinate(longitude, latitude));
+    public void setLocation(Point location) {
+        this.location = location;
     }
 
     public Timestamp getDate_time() {
