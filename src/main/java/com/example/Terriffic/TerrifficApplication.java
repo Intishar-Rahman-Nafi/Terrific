@@ -9,7 +9,7 @@ public class TerrifficApplication {
 
 	public static void main(String[] args) {
 		// Set application properties from .env file
-		Dotenv dotenv = Dotenv.configure().load();
+		Dotenv dotenv = DotenvSingleton.getInstance();
 		String DB_URL = dotenv.get("DB_URL");
 		String DB_USERNAME = dotenv.get("DB_USERNAME");
 		String DB_PASSWORD = dotenv.get("DB_PASSWORD");
