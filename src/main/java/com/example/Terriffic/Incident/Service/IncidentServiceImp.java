@@ -62,6 +62,6 @@ public class IncidentServiceImp implements IncidentService {
         Incident incident = new Incident();
         incident.setIncident_type(incidentType);
         incident.setLocation(point);
-    incidentdao.save(incident);
+        incidentdao.save(incident);
     }//NAIMMMMMMMMMMMMMMM
 }

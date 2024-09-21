@@ -2,21 +2,25 @@ package com.example.Terriffic.SearchBot.Model;
 
 import jakarta.persistence.*;
 
+
 @Entity
-@Table(name = "Incident_link")
+@Table
 public class IncidentLink {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
-    @Column(name = "link")
-    private String link;
-    @Column(name = "temp")
-    private int temp = 0;
-    public IncidentLink(){
 
-    }
-    public IncidentLink(String link) {
+    @Enumerated(EnumType.STRING)
+    private NewsAgency newsAgency;
+
+    private String link;
+
+    @Enumerated(EnumType.STRING)
+    private IncidentLinkStatus status = IncidentLinkStatus.PENDING;
+
+    public IncidentLink(){}
+    public IncidentLink(NewsAgency newsAgency, String link) {
+        this.newsAgency = newsAgency;
         this.link = link;
     }
 
@@ -28,12 +32,12 @@ public class IncidentLink {
         this.link = link;
     }
 
-    public int getTemp() {
-        return temp;
+    public IncidentLinkStatus getStatus() {
+        return status;
     }
 
-    public void setTemp(int temp) {
-        this.temp = temp;
+    public void setStatus(IncidentLinkStatus status) {
+        this.status = status;
     }
 
     public Long getId() {

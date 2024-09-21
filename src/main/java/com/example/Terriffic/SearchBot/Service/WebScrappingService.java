@@ -1,43 +1,43 @@
 package com.example.Terriffic.SearchBot.Service;
 
 import com.example.Terriffic.SearchBot.Model.IncidentLink;
+import com.example.Terriffic.SearchBot.Model.NewsAgency;
 import com.example.Terriffic.SearchBot.Repository.IncidentLinkRepository;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import com.example.Terriffic.SearchBot.Service.NewsAgency.DhakaTribune;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class WebScrappingService {
     @Autowired
     private IncidentLinkRepository incidentLinkRepository;
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 1000 * 60 * 60)
     public void fetchIncidentLinks() throws IOException {
-        String url = "https://www.dhakatribune.com/topic/road-accident";
-        Document doc = Jsoup.connect(url).get();
-        Elements links = doc.select("a[href]");
+        DhakaTribune dhakaTribune = new DhakaTribune();
+        Optional<List<IncidentLink>> incidentLink = dhakaTribune.getNewIncidentLinks();
 
-        for (Element link : links) {
-            String href = link.attr("href");
-
-            String fullLink = "https://www.dhakatribune.com" + href;
-
-            // Check if link already exists in the database
-            Optional<IncidentLink> existingLink = incidentLinkRepository.findByLink(fullLink);
-            if (existingLink.isEmpty()) {
-                saveIncidentLink(fullLink);  // Save only if it doesn't exist
-            }
-        }
+        incidentLink.ifPresent(incidentLinks -> {
+            // save all links that are not already in the database
+            System.out.println(incidentLink.get().size() + " Incident links fetched successfully");
+            AtomicInteger newCount = new AtomicInteger();
+            incidentLinks.forEach(incident -> {
+                if (incidentLinkRepository.findByLink(incident.getLink()).isEmpty()) {
+                    newCount.getAndIncrement();
+                    saveIncidentLink(incident.getLink());
+                }
+            });
+            System.out.println(newCount.get() + " new links saved");
+        });
     }
     private void saveIncidentLink(String link) {
-        IncidentLink incidentLink = new IncidentLink(link);
+        IncidentLink incidentLink = new IncidentLink(NewsAgency.DHAKA_TRIBUNE, link);
         incidentLinkRepository.save(incidentLink);
     }
 }

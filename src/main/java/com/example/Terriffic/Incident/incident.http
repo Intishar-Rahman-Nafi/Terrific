@@ -13,3 +13,6 @@ Content-Type: application/json
   "longitude": 77.5970,
   "reported_by": "user345"
 }
+
+###
+GET https://www.dhakatribune.com/api/theme_engine/get_ajax_contents?widget=612&start=0&count=22&tags=976

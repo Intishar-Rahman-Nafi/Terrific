@@ -2,6 +2,7 @@ package com.example.Terriffic.SearchBot.Service;
 
 import com.example.Terriffic.Incident.Service.IncidentService;
 import com.example.Terriffic.SearchBot.Model.IncidentLink;
+import com.example.Terriffic.SearchBot.Model.IncidentLinkStatus;
 import com.example.Terriffic.SearchBot.Repository.IncidentLinkRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,9 +21,9 @@ public class IncidentParserService {
     IncidentService incidentService;
 
     public void parseUnfetchedLinks() throws IOException {
-        List<IncidentLink> unfetchedLinks = incidentLinkRepository.findByTemp(0);
-
-        for (IncidentLink link : unfetchedLinks) {
+        List<IncidentLink> pendingLinks = incidentLinkRepository.findByStatus(IncidentLinkStatus.PENDING);
+        System.out.println("Found " + pendingLinks.size() + " pending links");
+        for (IncidentLink link : pendingLinks) {
             Document doc = Jsoup.connect(link.getLink()).get();
             Element articleBody = doc.select("div[itemprop=articleBody]").first();
 
