@@ -47,4 +47,12 @@ public class IncidentLink {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public NewsAgency getNewsAgency() {
+        return newsAgency;
+    }
+
+    public void setNewsAgency(NewsAgency newsAgency) {
+        this.newsAgency = newsAgency;
+    }
 }

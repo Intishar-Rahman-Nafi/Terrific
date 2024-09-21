@@ -64,4 +64,9 @@ public class IncidentServiceImp implements IncidentService {
         incident.setLocation(point);
         incidentdao.save(incident);
     }//NAIMMMMMMMMMMMMMMM
+
+    @Override
+    public void saveAll(List<Incident> newIncidents) {
+        incidentdao.saveAll(newIncidents);
+    }
 }

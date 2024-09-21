@@ -11,4 +11,5 @@ public interface IncidentService {
     public Incident findById(Long id);
     public List<Incident> findWithinBoundingBox(double latMin, double lonMin, double latMax, double lonMax);
     public void saveParsedIncident(String location, String incidentType);
+    void saveAll(List<Incident> newIncidents);
 }
