@@ -40,17 +40,14 @@ public class IncidentServiceImp implements IncidentService {
     @Override
     @Transactional
     public List<Incident> findWithinBoundingBox(double latMin, double lonMin, double latMax, double lonMax) {
+        System.out.println("latMin: " + latMin + " lonMin: " + lonMin + " latMax: " + latMax + " lonMax: " + lonMax);
         return incidentdao.findWithinBoundingBox(latMin, lonMin, latMax, lonMax);
     }
 
     @Override
     public Incident findById(Long id) {
         Optional<Incident> option = incidentdao.findById(id);
-        if (option.isPresent()) {
-            Incident inci = option.get();
-            return inci;
-        }
-        return null;
+        return option.orElse(null);
     }
     //NAIMMMMMMMMMMMMMMMMMMMMMMMMMMMM
     @Autowired

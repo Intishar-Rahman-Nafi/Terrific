@@ -2,6 +2,10 @@ GET http://localhost:8080/incidents
 
 
 ###
+GET http://localhost:8080/incidents/range?lon_min=82.41943359375001&lon_max=98.40454101562501&lat_min=20.416716988945712&lat_max=27.010196431931526
+
+
+###
 POST http://localhost:8080/incidents
 Content-Type: application/json
 
@@ -9,8 +13,8 @@ Content-Type: application/json
   "incident_type": "Lite Nafi",
   "description": "Traffic congestion due to an event.",
   "date_time": "2024-09-16T07:07:57.873Z",
-  "latitude": 12.9740,
-  "longitude": 77.5970,
+  "latitude": 24.1234,
+  "longitude": 90.5970,
   "reported_by": "user345"
 }
 
