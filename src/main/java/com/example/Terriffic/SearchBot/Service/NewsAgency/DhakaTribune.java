@@ -3,6 +3,7 @@ package com.example.Terriffic.SearchBot.Service.NewsAgency;
 import com.example.Terriffic.Incident.Model.Incident;
 import com.example.Terriffic.SearchBot.Model.IncidentLink;
 import com.example.Terriffic.SearchBot.Service.AiService;
+import com.example.Terriffic.SearchBot.Service.AnalyzeNewsResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jsoup.Jsoup;
@@ -22,16 +23,29 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import com.example.Terriffic.SearchBot.Model.NewsAgency;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Point;
+import org.springframework.stereotype.Service;
 
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 
+@Service
 public class DhakaTribune implements NewsAgencyInterface {
 
+    private final AiService aiService;
+    private final GeometryFactory geometryFactory = new GeometryFactory();
+
+    public DhakaTribune(AiService aiService) {
+        this.aiService = aiService;
+    }
 
     @Override
     public Optional<List<IncidentLink>> getNewIncidentLinks() {
         List<IncidentLink> incidentLinks = new ArrayList<>(List.of());
         try {
-            String NEWS_URI = "https://www.dhakatribune.com/api/theme_engine/get_ajax_contents?widget=612&start=0&count=22&tags=976";
+            String NEWS_URI = "https://www.dhakatribune.com/api/theme_engine/get_ajax_contents?widget=612&start=0&count=1&tags=976";
             // Create HttpClient
             HttpClient client = HttpClient.newHttpClient();
 
@@ -48,8 +62,6 @@ public class DhakaTribune implements NewsAgencyInterface {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(response.body());
 
-            // Example: Print a specific field from the JSON response
-            System.out.println(jsonNode.get("html").asText());
 
             // Parse and get Document using jsoup
             Document doc = Jsoup.parse(jsonNode.get("html").asText());
@@ -89,15 +101,29 @@ public class DhakaTribune implements NewsAgencyInterface {
                 System.out.println("Content: " + content);
 
 
-//                AiService aiService = new AiService();
-//                String LocationAndIncident = aiService.determineLocationAndIncidentType(headline, date, content);
-//                //Incident type and Location  seperate kor NAIMMMMMMMMMMMMMMMMMMMM
-//                String location = "";
-//                String Incident_type = "";
-//                //Incident type and Location  seperate kor NAIMMMMMMMMMMMMMMMMMMMM
+                Optional<AnalyzeNewsResponse> news = aiService.analyzeNews(headline, content);
+                if (news.isPresent()) {
+                    AnalyzeNewsResponse analyzeNewsResponse = news.get();
+                    System.out.println("location_name: " + analyzeNewsResponse.getLocation_name());
+                    System.out.println("type: " + analyzeNewsResponse.getType());
+                    System.out.println("location_longitude: " + analyzeNewsResponse.getLocation_longitude());
+                    System.out.println("location_latitude: " + analyzeNewsResponse.getLocation_latitude());
+                    double longitude = Double.parseDouble(analyzeNewsResponse.getLocation_longitude());
+                    double latitude = Double.parseDouble(analyzeNewsResponse.getLocation_latitude());
+                    Point location = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+                    location.setSRID(4326);
 
-                //                incidentService.saveParsedIncident(location, Incident_type);
-                //Naimmmmmmm
+                    Incident incident = new Incident(
+                            analyzeNewsResponse.getLocation_name(),
+                            analyzeNewsResponse.getType(),
+                            headline,
+                            date,
+                            location,
+                            NewsAgency.DHAKA_TRIBUNE.toString()
+                    );
+                    return Optional.of(incident);
+                }
+
             } else {
                 System.out.println("Article body not found for link: " + link.getLink());
             }

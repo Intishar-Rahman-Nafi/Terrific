@@ -19,10 +19,15 @@ import java.util.Optional;
 
 @Service
 public class IncidentParserService {
-    @Autowired
-    private IncidentLinkRepository incidentLinkRepository;
-    @Autowired
-    IncidentService incidentService;
+    private final IncidentLinkRepository incidentLinkRepository;
+    private final IncidentService incidentService;
+    private final DhakaTribune dhakaTribune;
+
+    public IncidentParserService(IncidentLinkRepository incidentLinkRepository, IncidentService incidentService, DhakaTribune dhakaTribune) {
+        this.incidentLinkRepository = incidentLinkRepository;
+        this.incidentService = incidentService;
+        this.dhakaTribune = dhakaTribune;
+    }
 
     @Scheduled(fixedRate = 1000 * 60 * 60)
     public void parseUnfetchedLinks() {
@@ -36,8 +41,7 @@ public class IncidentParserService {
 
                 switch (link.getNewsAgency()) {
                     case DHAKA_TRIBUNE:
-                        DhakaTribune dhakaTribune = new DhakaTribune();
-                        Optional<Incident> incident = dhakaTribune.parseIncidentNewsPage(link);
+                        Optional<Incident> incident = this.dhakaTribune.parseIncidentNewsPage(link);
                         incident.ifPresent(inc -> {
                             incidentService.save(inc);
                             link.setStatus(IncidentLinkStatus.PROCESSED);

@@ -14,14 +14,20 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-public class WebScrappingService {
+public class IncidentLinkListingService {
     @Autowired
     private IncidentLinkRepository incidentLinkRepository;
 
+    private final DhakaTribune dhakaTribune;
+
+    public IncidentLinkListingService(IncidentLinkRepository incidentLinkRepository, DhakaTribune dhakaTribune) {
+        this.incidentLinkRepository = incidentLinkRepository;
+        this.dhakaTribune = dhakaTribune;
+    }
+
     @Scheduled(fixedRate = 1000 * 60 * 60)
     public void fetchIncidentLinks() throws IOException {
-        DhakaTribune dhakaTribune = new DhakaTribune();
-        Optional<List<IncidentLink>> incidentLink = dhakaTribune.getNewIncidentLinks();
+        Optional<List<IncidentLink>> incidentLink = this.dhakaTribune.getNewIncidentLinks();
 
         incidentLink.ifPresent(incidentLinks -> {
             // save all links that are not already in the database

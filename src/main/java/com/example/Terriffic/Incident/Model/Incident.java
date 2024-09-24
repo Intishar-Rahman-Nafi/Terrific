@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.locationtech.jts.geom.Point;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "Incident")
@@ -18,7 +19,9 @@ public class Incident {
     @Convert(converter = PointConverter.class)
     private Point location;
 
-    private Timestamp date_time;
+    private String location_name;
+
+    private Date date_time;
 
     private String description;
 
@@ -27,7 +30,8 @@ public class Incident {
     public Incident(){
 
     }
-    public Incident(String incident_type, String description, Timestamp date_time, Point location, String reported_by) {
+    public Incident(String location_name, String incident_type, String description, Date date_time, Point location, String reported_by) {
+        this.location_name = location_name;
         this.incident_type = incident_type;
         this.description = description;
         this.date_time = date_time;
@@ -56,11 +60,11 @@ public class Incident {
         this.location = location;
     }
 
-    public Timestamp getDate_time() {
+    public Date getDate_time() {
         return date_time;
     }
 
-    public void setDate_time(Timestamp date_time) {
+    public void setDate_time(Date date_time) {
         this.date_time = date_time;
     }
 
@@ -78,6 +82,14 @@ public class Incident {
 
     public void setIncident_type(String incident_type) {
         this.incident_type = incident_type;
+    }
+
+    public String getLocation_name() {
+        return location_name;
+    }
+
+    public void setLocation_name(String location_name) {
+        this.location_name = location_name;
     }
 
     @Override

@@ -29,3 +29,12 @@ Content-Type: application/json
   "title": "5 killed as pickup hits autorickshaw in Bagerhat",
   "news": "Five passengers of a battery-run autorickshaw were killed in a head-on collision with a pickup van on the Khulna-Bagerhat highway in the Town Naoapara area of Bagerhat on Monday morning. The deceased were Nipa Begum, 28, Md Masum, 30, Shawkat Ali, 40, Hiron Sheikh, 35, and Mosharaf Hossain Khandaker, 42. Additional Superintendent of Police (Crime and Operations) Russelur Rahman said two passengers had died on the spot. One person died while being taken to Fakirhat Upazila Health Complex, and two others died while being transferred to Khulna Medical College Hospital."
 }
+
+###
+POST https://terrific-inky.vercel.app/ai/api/analyze-news
+Content-Type: application/json
+
+{
+  "title": "5 killed as pickup hits autorickshaw in Bagerhat",
+  "news": "Five passengers of a battery-run autorickshaw were killed in a head-on collision with a pickup van on the Khulna-Bagerhat highway in the Town Naoapara area of Bagerhat on Monday morning. The deceased were Nipa Begum, 28, Md Masum, 30, Shawkat Ali, 40, Hiron Sheikh, 35, and Mosharaf Hossain Khandaker, 42. Additional Superintendent of Police (Crime and Operations) Russelur Rahman said two passengers had died on the spot. One person died while being taken to Fakirhat Upazila Health Complex, and two others died while being transferred to Khulna Medical College Hospital."
+}

@@ -2,7 +2,6 @@ package com.example.Terriffic.Incident.Service;
 
 import com.example.Terriffic.Incident.Model.Incident;
 import com.example.Terriffic.Incident.Repository.IncidentDao;
-import com.example.Terriffic.SearchBot.Service.GeoCodingService;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -49,18 +48,6 @@ public class IncidentServiceImp implements IncidentService {
         Optional<Incident> option = incidentdao.findById(id);
         return option.orElse(null);
     }
-    //NAIMMMMMMMMMMMMMMMMMMMMMMMMMMMM
-    @Autowired
-    private GeoCodingService geocodingService;
-
-    public void saveParsedIncident(String location, String incidentType) {
-        Point point = geocodingService.getLatLonFromLocation(location);  // Get lat/lon from location
-
-        Incident incident = new Incident();
-        incident.setIncident_type(incidentType);
-        incident.setLocation(point);
-        incidentdao.save(incident);
-    }//NAIMMMMMMMMMMMMMMM
 
     @Override
     public void saveAll(List<Incident> newIncidents) {
