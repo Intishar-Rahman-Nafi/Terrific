@@ -25,28 +25,29 @@ public class IncidentLinkListingService {
         this.dhakaTribune = dhakaTribune;
     }
 
-    @Scheduled(fixedRate = 1000 * 60 * 11)
+    @Scheduled(fixedRate = 1000 * 60 * 60)
     public void fetchIncidentLinks() throws IOException {
-        Optional<List<IncidentLink>> incidentLink = this.dhakaTribune.getNewIncidentLinks();
+        Optional<List<IncidentLink>> dhakaTribuneLinks = this.dhakaTribune.getNewIncidentLinks();
 
-        incidentLink.ifPresent(incidentLinks -> {
+        dhakaTribuneLinks.ifPresent(incidentLinks -> {
             // save all links that are not already in the database
-            System.out.println(incidentLink.get().size() + " Incident links fetched successfully");
+            System.out.println(incidentLinks.size() + " Incident links fetched successfully");
             AtomicInteger newCount = new AtomicInteger();
-            incidentLinks.forEach(incident -> {
+            incidentLinks.forEach(incLink -> {
                 try {
-                    if (incidentLinkRepository.findByLink(incident.getLink()).isEmpty()) {
+                    if (incidentLinkRepository.findByLink(incLink.getLink()).isEmpty()) {
                         newCount.getAndIncrement();
-                        saveIncidentLink(incident.getLink());
+                        saveIncidentLink(incLink.getLink());
                     }
                 } catch (Exception e) {
-                    System.out.println("Error while saving link: " + incident.getLink());
+                    System.out.println("Error while saving link: " + incLink.getLink());
                     e.printStackTrace();
                 }
             });
             System.out.println(newCount.get() + " new links saved");
         });
     }
+
     private void saveIncidentLink(String link) {
         IncidentLink incidentLink = new IncidentLink(NewsAgency.DHAKA_TRIBUNE, link);
         incidentLinkRepository.save(incidentLink);

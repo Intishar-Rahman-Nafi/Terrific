@@ -59,14 +59,10 @@ public class AiService {
             JsonNode jsonNode = objectMapper.readTree(response.body());
             System.out.println("location_name: " + jsonNode.get("location_name").asText());
             System.out.println("type: " + jsonNode.get("type").asText());
-            System.out.println("location_longitude: " + jsonNode.get("location").get("longitude").asText());
-            System.out.println("location_latitude: " + jsonNode.get("location").get("latitude").asText());
 
             AnalyzeNewsResponse analyzeNewsResponse = new AnalyzeNewsResponse(
                     jsonNode.get("location_name").asText(),
-                    jsonNode.get("type").asText(),
-                    jsonNode.get("location").get("longitude").asText(),
-                    jsonNode.get("location").get("latitude").asText()
+                    jsonNode.get("type").asText()
             );
 
             return Optional.of(analyzeNewsResponse);

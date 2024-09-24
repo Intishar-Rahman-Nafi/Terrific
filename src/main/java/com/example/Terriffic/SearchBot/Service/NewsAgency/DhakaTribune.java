@@ -4,6 +4,7 @@ import com.example.Terriffic.Incident.Model.Incident;
 import com.example.Terriffic.SearchBot.Model.IncidentLink;
 import com.example.Terriffic.SearchBot.Service.AiService;
 import com.example.Terriffic.SearchBot.Service.AnalyzeNewsResponse;
+import com.example.Terriffic.SearchBot.Service.GeoLocationService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jsoup.Jsoup;
@@ -18,10 +19,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 import com.example.Terriffic.SearchBot.Model.NewsAgency;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Point;
@@ -36,16 +35,18 @@ public class DhakaTribune implements NewsAgencyInterface {
 
     private final AiService aiService;
     private final GeometryFactory geometryFactory = new GeometryFactory();
+    private GeoLocationService geoLocationService;
 
-    public DhakaTribune(AiService aiService) {
+    public DhakaTribune(AiService aiService, GeoLocationService geoLocationService) {
         this.aiService = aiService;
+        this.geoLocationService = geoLocationService;
     }
 
     @Override
     public Optional<List<IncidentLink>> getNewIncidentLinks() {
         List<IncidentLink> incidentLinks = new ArrayList<>(List.of());
         try {
-            String NEWS_URI = "https://www.dhakatribune.com/api/theme_engine/get_ajax_contents?widget=612&start=0&count=250&tags=976";
+            String NEWS_URI = "https://www.dhakatribune.com/api/theme_engine/get_ajax_contents?widget=612&start=0&count=10&tags=976";
             // Create HttpClient
             HttpClient client = HttpClient.newHttpClient();
 
@@ -106,10 +107,14 @@ public class DhakaTribune implements NewsAgencyInterface {
                     AnalyzeNewsResponse analyzeNewsResponse = news.get();
                     System.out.println("location_name: " + analyzeNewsResponse.getLocation_name());
                     System.out.println("type: " + analyzeNewsResponse.getType());
-                    System.out.println("location_longitude: " + analyzeNewsResponse.getLocation_longitude());
-                    System.out.println("location_latitude: " + analyzeNewsResponse.getLocation_latitude());
-                    double longitude = Double.parseDouble(analyzeNewsResponse.getLocation_longitude());
-                    double latitude = Double.parseDouble(analyzeNewsResponse.getLocation_latitude());
+
+                    var coordinates = geoLocationService.getLocationCoordinates(analyzeNewsResponse.getLocation_name());
+
+                    System.out.println("latitude: " + coordinates.get("latitude"));
+                    System.out.println("longitude: " + coordinates.get("longitude"));
+
+                    double longitude = Double.parseDouble(coordinates.get("longitude").toString());
+                    double latitude = Double.parseDouble(coordinates.get("latitude").toString());
                     Point location = geometryFactory.createPoint(new Coordinate(longitude, latitude));
                     location.setSRID(4326);
 

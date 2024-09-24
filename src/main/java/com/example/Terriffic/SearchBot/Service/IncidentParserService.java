@@ -6,14 +6,11 @@ import com.example.Terriffic.SearchBot.Model.IncidentLink;
 import com.example.Terriffic.SearchBot.Model.IncidentLinkStatus;
 import com.example.Terriffic.SearchBot.Repository.IncidentLinkRepository;
 import com.example.Terriffic.SearchBot.Service.NewsAgency.DhakaTribune;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +26,7 @@ public class IncidentParserService {
         this.dhakaTribune = dhakaTribune;
     }
 
-    @Scheduled(fixedRate = 1000 * 60 * 15)
+    @Scheduled(fixedRate = 1000 * 60 * 70)
     public void parseUnfetchedLinks() {
         List<IncidentLink> processedLinks = new java.util.ArrayList<>(List.of());
         try {
@@ -38,6 +35,7 @@ public class IncidentParserService {
             int count = 0;
             for (IncidentLink link : pendingLinks) {
                 System.out.println("(" + ++count + "/" + pendingLinks.size() + ")" + "Processing link: " + link.getLink());
+                link.setLink(cleanURL(link.getLink()));
 
                 switch (link.getNewsAgency()) {
                     case DHAKA_TRIBUNE:
@@ -65,4 +63,8 @@ public class IncidentParserService {
         }
     }
 
+    private static String cleanURL(String url) {
+        // Decode the URL
+        return URLDecoder.decode(url, StandardCharsets.UTF_8);
+    }
 }
