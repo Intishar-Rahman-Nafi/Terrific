@@ -29,7 +29,7 @@ public class IncidentParserService {
         this.dhakaTribune = dhakaTribune;
     }
 
-    @Scheduled(fixedRate = 1000 * 60 * 60)
+    @Scheduled(fixedRate = 1000 * 60 * 15)
     public void parseUnfetchedLinks() {
         List<IncidentLink> processedLinks = new java.util.ArrayList<>(List.of());
         try {
@@ -51,6 +51,9 @@ public class IncidentParserService {
                     default:
                         System.out.println("News agency not supported: " + link.getNewsAgency());
                 }
+
+                // wait for 5 seconds before processing the next link
+                Thread.sleep(5000);
             }
 
         } catch (Exception e) {

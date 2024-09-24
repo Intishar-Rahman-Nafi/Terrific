@@ -45,7 +45,7 @@ public class DhakaTribune implements NewsAgencyInterface {
     public Optional<List<IncidentLink>> getNewIncidentLinks() {
         List<IncidentLink> incidentLinks = new ArrayList<>(List.of());
         try {
-            String NEWS_URI = "https://www.dhakatribune.com/api/theme_engine/get_ajax_contents?widget=612&start=0&count=1&tags=976";
+            String NEWS_URI = "https://www.dhakatribune.com/api/theme_engine/get_ajax_contents?widget=612&start=0&count=250&tags=976";
             // Create HttpClient
             HttpClient client = HttpClient.newHttpClient();
 
