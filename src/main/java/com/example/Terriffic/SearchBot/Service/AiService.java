@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AiService {
-    public String determineLocationAndIncidentType(String headline, String date, String content) {
+    public String determineLocationAndIncidentType(String headline, String content) {
         //NAIMMMMMM implement AI
         return " ";
     }

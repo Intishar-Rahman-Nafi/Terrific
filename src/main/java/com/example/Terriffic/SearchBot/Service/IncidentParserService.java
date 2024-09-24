@@ -32,7 +32,7 @@ public class IncidentParserService {
             System.out.println("Found " + pendingLinks.size() + " pending links");
             int count = 0;
             for (IncidentLink link : pendingLinks) {
-                System.out.println("("+ ++count +"/"+pendingLinks.size()+")"+"Processing link: " + link.getLink());
+                System.out.println("(" + ++count + "/" + pendingLinks.size() + ")" + "Processing link: " + link.getLink());
 
                 switch (link.getNewsAgency()) {
                     case DHAKA_TRIBUNE:
