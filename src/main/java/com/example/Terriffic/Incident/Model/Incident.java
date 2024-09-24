@@ -1,9 +1,9 @@
 package com.example.Terriffic.Incident.Model;
 
+import com.example.Terriffic.SearchBot.Model.IncidentLink;
 import jakarta.persistence.*;
 import org.locationtech.jts.geom.Point;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -27,16 +27,32 @@ public class Incident {
 
     private String incident_type;
 
-    public Incident(){
+    @OneToOne
+    @JoinColumn(name = "incident_link_id")
+    private IncidentLink incident_link;
+
+    public IncidentLink getIncident_link() {
+        return incident_link;
+    }
+
+    public void setIncident_link(IncidentLink incidentLink) {
+        this.incident_link = incidentLink;
+    }
+
+    public Incident() {
 
     }
-    public Incident(String location_name, String incident_type, String description, Date date_time, Point location, String reported_by) {
+
+    public Incident(String location_name, String incident_type, String description, Date date_time, Point location, String reported_by,
+                    IncidentLink incidentLink
+    ) {
         this.location_name = location_name;
         this.incident_type = incident_type;
         this.description = description;
         this.date_time = date_time;
         this.location = location;
         this.reported_by = reported_by;
+        this.incident_link = incidentLink;
     }
 
     public Long getId() {
@@ -91,6 +107,7 @@ public class Incident {
     public void setLocation_name(String location_name) {
         this.location_name = location_name;
     }
+
 
     @Override
     public String toString() {

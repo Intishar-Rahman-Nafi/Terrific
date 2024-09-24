@@ -119,7 +119,8 @@ public class DhakaTribune implements NewsAgencyInterface {
                             headline,
                             date,
                             location,
-                            NewsAgency.DHAKA_TRIBUNE.toString()
+                            NewsAgency.DHAKA_TRIBUNE.toString(),
+                            link
                     );
                     return Optional.of(incident);
                 }

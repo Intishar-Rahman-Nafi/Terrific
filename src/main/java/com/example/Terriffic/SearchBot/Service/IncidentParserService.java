@@ -41,7 +41,7 @@ public class IncidentParserService {
 
                 switch (link.getNewsAgency()) {
                     case DHAKA_TRIBUNE:
-                        Optional<Incident> incident = this.dhakaTribune.parseIncidentNewsPage(link);
+                        Optional<Incident> incident = dhakaTribune.parseIncidentNewsPage(link);
                         incident.ifPresent(inc -> {
                             incidentService.save(inc);
                             link.setStatus(IncidentLinkStatus.PROCESSED);
