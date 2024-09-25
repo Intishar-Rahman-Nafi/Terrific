@@ -1,5 +1,6 @@
 package com.example.Terriffic.Incident.Model;
 
+import com.example.Terriffic.SearchBot.Model.IncidentLink;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
@@ -15,6 +16,7 @@ public class IncidentDTO {
     private Point location;
     private String reported_by;
     private final GeometryFactory geometryFactory;
+    private IncidentLink incidentLink;
 
     public IncidentDTO() {
         this.geometryFactory = new GeometryFactory();
@@ -101,5 +103,13 @@ public class IncidentDTO {
     public void setLocation(double longitude, double latitude) {
         this.location = geometryFactory.createPoint(new Coordinate(longitude, latitude));
         this.location.setSRID(4326);
+    }
+
+    public IncidentLink getIncidentLink() {
+        return incidentLink;
+    }
+
+    public void setIncidentLink(IncidentLink incidentLink) {
+        this.incidentLink = incidentLink;
     }
 }

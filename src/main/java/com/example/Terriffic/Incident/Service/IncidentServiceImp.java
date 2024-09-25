@@ -2,6 +2,7 @@ package com.example.Terriffic.Incident.Service;
 
 import com.example.Terriffic.Incident.Model.Incident;
 import com.example.Terriffic.Incident.Repository.IncidentDao;
+import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,5 +47,10 @@ public class IncidentServiceImp implements IncidentService {
     public Incident findById(Long id) {
         Optional<Incident> option = incidentdao.findById(id);
         return option.orElse(null);
+    }
+
+    @Override
+    public void saveAll(List<Incident> newIncidents) {
+        incidentdao.saveAll(newIncidents);
     }
 }
